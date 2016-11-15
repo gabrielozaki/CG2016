@@ -2,6 +2,7 @@ package trabalhopratico1;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
@@ -27,6 +28,11 @@ import javax.swing.JFileChooser;
 public class Visualizador extends javax.swing.JFrame {
 
     BufferedImage imagem;
+    BufferedImage original;
+    Point ini;
+    Point fim;
+    boolean rini = true;
+    boolean retaponto = false;
 
     /**
      * Creates new form visualizador
@@ -60,6 +66,9 @@ public class Visualizador extends javax.swing.JFrame {
 
         imagemPanel = new javax.swing.JPanel();
         ImagemLabel = new javax.swing.JLabel();
+        PosLabel = new javax.swing.JLabel();
+        pontoButton = new javax.swing.JRadioButton();
+        retaButton = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         AbrirMenu = new javax.swing.JMenuItem();
@@ -74,22 +83,51 @@ public class Visualizador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        imagemPanel.setBackground(new java.awt.Color(200, 200, 200));
+        imagemPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                imagemPanelMouseMoved(evt);
+            }
+        });
+
+        ImagemLabel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                ImagemLabelMouseMoved(evt);
+            }
+        });
+        ImagemLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ImagemLabelMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout imagemPanelLayout = new javax.swing.GroupLayout(imagemPanel);
         imagemPanel.setLayout(imagemPanelLayout);
         imagemPanelLayout.setHorizontalGroup(
             imagemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(imagemPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(ImagemLabel)
-                .addContainerGap(544, Short.MAX_VALUE))
+            .addComponent(ImagemLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
         );
         imagemPanelLayout.setVerticalGroup(
             imagemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(imagemPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(ImagemLabel)
-                .addContainerGap(363, Short.MAX_VALUE))
+            .addComponent(ImagemLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
         );
+
+        PosLabel.setText("(0,0)");
+
+        pontoButton.setSelected(true);
+        pontoButton.setText("Ponto");
+        pontoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pontoButtonActionPerformed(evt);
+            }
+        });
+
+        retaButton.setText("Reta");
+        retaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                retaButtonActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Arquivo");
 
@@ -165,17 +203,29 @@ public class Visualizador extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
-                .addComponent(imagemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(imagemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(PosLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pontoButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(retaButton)))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(26, 26, 26)
                 .addComponent(imagemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pontoButton)
+                    .addComponent(retaButton)
+                    .addComponent(PosLabel))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -197,12 +247,14 @@ public class Visualizador extends javax.swing.JFrame {
             try {
                 //Abre a imagem
                 this.imagem = ImageIO.read(file);
+                this.original = clonaImagem(this.imagem);
                 //Faz o resize pra não ferrar com o layout
                 Image imagemTamanho = this.imagem.getScaledInstance(imagemPanel.getWidth(), imagemPanel.getHeight(), 0);
                 //Transforma em um icon pra gente passar para o jlabel
                 ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
                 //Coloca no jlabel
                 ImagemLabel.setIcon(imagemIcon);
+                //imagemPanel.setSize(imagemPanel.getWidth(), imagemPanel.getHeight());
 
             } catch (IOException ex) {
                 Logger.getLogger(Visualizador.class.getName()).log(Level.SEVERE, null, ex);
@@ -215,7 +267,7 @@ public class Visualizador extends javax.swing.JFrame {
     private void CinzaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CinzaMenuActionPerformed
         // TODO add your handling code here:
         //Cria uma cópia da imagem
-        BufferedImage cinza = clonaImagem(this.imagem);
+        BufferedImage cinza = this.imagem;
         //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
         Color cor = null;
         //Variaveis para armazenar cada canal de cor
@@ -253,7 +305,7 @@ public class Visualizador extends javax.swing.JFrame {
     private void InverterMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InverterMenuActionPerformed
         // TODO add your handling code here:
         //Cria uma cópia da imagem
-        BufferedImage inverte = clonaImagem(this.imagem);
+        BufferedImage inverte = this.imagem;
         //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
         Color cor = null;
         //Variaveis para armazenar cada canal de cor
@@ -288,6 +340,7 @@ public class Visualizador extends javax.swing.JFrame {
     private void OriginalMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OriginalMenuActionPerformed
         // TODO add your handling code here:
         //Aqui usamos o ImagemLabel pq o panel muda de tamanho
+        this.imagem = clonaImagem(original);
         Image imagemTamanho = this.imagem.getScaledInstance(ImagemLabel.getWidth(), ImagemLabel.getHeight(), 0);
         ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
         ImagemLabel.setIcon(imagemIcon);
@@ -298,12 +351,12 @@ public class Visualizador extends javax.swing.JFrame {
         // TODO add your handling code here:
         // TODO add your handling code here:
         //Cria uma cópia da imagem
-        BufferedImage separa = clonaImagem(this.imagem);
+        BufferedImage separa = this.imagem;
         //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
         Color cor = null;
         //Variaveis para armazenar cada canal de cor
         float vermelho;
-        
+
         //Percorre na horizontal
         for (int i = 0; i < separa.getWidth(); i++) {
             //percorre na vertical
@@ -327,12 +380,12 @@ public class Visualizador extends javax.swing.JFrame {
     private void VerdeMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerdeMenuActionPerformed
         // TODO add your handling code here:
         //Cria uma cópia da imagem
-        BufferedImage separa = clonaImagem(this.imagem);
+        BufferedImage separa = this.imagem;
         //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
         Color cor = null;
         //Variaveis para armazenar cada canal de cor
         float verde;
-        
+
         //Percorre na horizontal
         for (int i = 0; i < separa.getWidth(); i++) {
             //percorre na vertical
@@ -356,12 +409,12 @@ public class Visualizador extends javax.swing.JFrame {
     private void AzulMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AzulMenuActionPerformed
         // TODO add your handling code here:
         //Cria uma cópia da imagem
-        BufferedImage separa = clonaImagem(this.imagem);
+        BufferedImage separa = this.imagem;
         //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
         Color cor = null;
         //Variaveis para armazenar cada canal de cor
         float azul;
-        
+
         //Percorre na horizontal
         for (int i = 0; i < separa.getWidth(); i++) {
             //percorre na vertical
@@ -381,6 +434,122 @@ public class Visualizador extends javax.swing.JFrame {
         ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
         ImagemLabel.setIcon(imagemIcon);
     }//GEN-LAST:event_AzulMenuActionPerformed
+
+    private void imagemPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imagemPanelMouseMoved
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_imagemPanelMouseMoved
+
+    private void ImagemLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ImagemLabelMouseClicked
+        // TODO add your handling code here:
+        if (retaponto == false) {
+            BufferedImage areaDesenho = this.imagem;
+            Point p = imagemPanel.getMousePosition();
+            int x = (int) p.getX();
+            int y = (int) p.getY();
+            int newx;
+            int newy;
+            double proporcaox;
+            double proporcaoy;
+            Color cor = new Color(0, 0, 0);
+
+            proporcaox = (double) areaDesenho.getWidth() / ImagemLabel.getWidth();
+            proporcaoy = (double) areaDesenho.getHeight() / ImagemLabel.getHeight();
+            newx = (int) (x * proporcaox);
+            newy = (int) (y * proporcaoy);
+
+            //Percorre na horizontal
+            for (int i = newx - 2; i <= newx + 2; i++) {
+                //percorre na vertical
+                for (int j = newy - 2; j <= newy + 2; j++) {
+                    //pinta o pixel
+                    areaDesenho.setRGB(i, j, cor.getRGB());
+                }
+            }
+            //Insere no label
+            Image imagemTamanho = areaDesenho.getScaledInstance(ImagemLabel.getWidth(), ImagemLabel.getHeight(), 0);
+
+            ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
+            ImagemLabel.setIcon(imagemIcon);
+        }else if(this.rini ==true){
+            this.rini = false;
+            this.ini = ImagemLabel.getMousePosition();
+        }else{
+            this.rini = true;
+            this.fim = ImagemLabel.getMousePosition();
+            
+            BufferedImage areaDesenho = this.imagem;
+            
+            int newxini,newxfim,tmpx;
+            int newyini,newyfim,tmpy;
+            double proporcaox;
+            double proporcaoy;
+            double teta;
+            Color cor = new Color(0, 0, 0);
+
+            
+            proporcaox = (double) areaDesenho.getWidth() / ImagemLabel.getWidth();
+            proporcaoy = (double) areaDesenho.getHeight() / ImagemLabel.getHeight();
+            newxini = (int) (this.ini.getX() * proporcaox);
+            newyini = (int) (this.ini.getY() * proporcaoy);
+            newxfim = (int) (this.fim.getX() * proporcaox);
+            newyfim = (int) (this.fim.getY() * proporcaoy);
+            
+        
+            for(int i=0;i<=1000;i++){
+                
+                teta = i * 0.001;
+                tmpx = (int) ((teta*newxini) + ((1-teta)*newxfim));
+                tmpy = (int) ((teta*newyini) + ((1-teta)*newyfim));
+                
+                //System.out.println("Origem:("+this.ini.getX()+","+this.ini.getY()+") Atual:("+tmpx+","+tmpy+") Destino:("+this.fim.getX()+","+this.fim.getY()+")");
+                /*
+                    |x-1 y-1,x y-1 , x+1 y-1 |
+                    |x-1 y  ,xy, x+1 y |
+                    |x-1 y+1,xy+1 ,x+1 y+1 |
+                */
+                areaDesenho.setRGB(tmpx-1, tmpy-1, cor.getRGB());
+                areaDesenho.setRGB(tmpx, tmpy-1, cor.getRGB());
+                areaDesenho.setRGB(tmpx+1, tmpy-1, cor.getRGB());
+                
+                areaDesenho.setRGB(tmpx-1, tmpy, cor.getRGB());
+                areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
+                areaDesenho.setRGB(tmpx+1, tmpy, cor.getRGB());
+                
+                areaDesenho.setRGB(tmpx-1, tmpy+1, cor.getRGB());
+                areaDesenho.setRGB(tmpx, tmpy+1, cor.getRGB());
+                areaDesenho.setRGB(tmpx+1, tmpy+1, cor.getRGB());
+            }
+
+            //Insere no label
+            Image imagemTamanho = areaDesenho.getScaledInstance(ImagemLabel.getWidth(), ImagemLabel.getHeight(), 0);
+
+            ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
+            ImagemLabel.setIcon(imagemIcon);
+            
+            
+        }
+        
+        
+    }//GEN-LAST:event_ImagemLabelMouseClicked
+
+    private void ImagemLabelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ImagemLabelMouseMoved
+        // TODO add your handling code here:
+        Point p = ImagemLabel.getMousePosition();
+        PosLabel.setText("(" + Math.round(p.getX()) + "," + Math.round(p.getY()) + ")");
+    }//GEN-LAST:event_ImagemLabelMouseMoved
+
+    private void pontoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pontoButtonActionPerformed
+        // TODO add your handling code here:
+        this.retaponto=false;
+        retaButton.setSelected(false);
+    }//GEN-LAST:event_pontoButtonActionPerformed
+
+    private void retaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retaButtonActionPerformed
+        // TODO add your handling code here:
+        this.retaponto=true;
+        pontoButton.setSelected(false);
+    }//GEN-LAST:event_retaButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -425,6 +594,7 @@ public class Visualizador extends javax.swing.JFrame {
     private javax.swing.JLabel ImagemLabel;
     private javax.swing.JMenuItem InverterMenu;
     private javax.swing.JMenuItem OriginalMenu;
+    private javax.swing.JLabel PosLabel;
     private javax.swing.JMenu SeparaMenu;
     private javax.swing.JMenuItem VerdeMenu;
     private javax.swing.JMenuItem VermelhoMenu;
@@ -432,5 +602,7 @@ public class Visualizador extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JRadioButton pontoButton;
+    private javax.swing.JRadioButton retaButton;
     // End of variables declaration//GEN-END:variables
 }
