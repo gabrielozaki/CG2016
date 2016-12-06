@@ -277,7 +277,7 @@ public class Visualizador extends javax.swing.JFrame {
         BufferedImage cinza = this.imagem;
         //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
         Color cor;
-        
+
         //Variaveis para armazenar cada canal de cor
         float vermelho;
         float verde;
@@ -472,7 +472,13 @@ public class Visualizador extends javax.swing.JFrame {
 
             int xini, xfim, tmpx;
             int yini, yfim, tmpy;
-            double teta;
+            int tmp;
+            // double teta;
+            double deltax, deltay;
+            double erro = -1.0;
+            double deltaerr;
+            double angulo;
+
             Color cor = new Color(0, 0, 0);
 
             xini = (int) (this.ini.getX());
@@ -480,13 +486,109 @@ public class Visualizador extends javax.swing.JFrame {
             xfim = (int) (this.fim.getX());
             yfim = (int) (this.fim.getY());
 
-            for (int i = 0; i <= 1000; i++) {
+            /*            for (int i = 0; i <= 1000; i++) {
                 //Desenha reta usando a formula parametrica 
                 teta = i * 0.001;
                 tmpx = (int) ((teta * xini) + ((1 - teta) * xfim));
                 tmpy = (int) ((teta * yini) + ((1 - teta) * yfim));
 
                 areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
+
+            }
+             */
+            //Bresenham
+            //Considerando um circulo trigonometrico invertido(o java mapeia a imagem de baixo pra cima, então o algoritmo funciona de 315 a 360 graus
+           // System.out.println(getAngulo(xini, yini, xfim, yfim));
+            angulo = getAngulo(xini, yini, xfim, yfim);
+            /*
+             Octants:
+             \5|6/
+             4\|/7
+            ---+---
+             3/|\0
+             /2|1\
+            
+             */
+            if (angulo > 315 && angulo <= 360) {
+                //quadratne 0
+                deltax = xfim - xini;
+                deltay = yfim - yini;
+
+                if (deltax != 0) {
+                    deltaerr = Math.abs(deltay / deltax);
+                } else {
+                    deltaerr = Math.abs(deltay / (deltax + 1));
+                }
+
+                tmpy = yini;
+                for (tmpx = xini; tmpx < xfim - 1; tmpx++) {
+                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
+                    erro = erro + deltaerr;
+                    if (erro >= 0.0) {
+                        tmpy++;
+                        erro = erro - 1.0;
+                    }
+                }
+            } else if (angulo > 270 && angulo <= 315) {
+                //Quadrante 1
+                //Será necessário inverter algumas veriaveis para que a linha base seja o eixo y e o algoritmo funcione
+                deltax = xfim - xini;
+
+                deltay = yfim - yini;
+
+                //inverte a divisao
+                if (deltay != 0) {
+                    deltaerr = Math.abs(deltax / deltay);
+                } else {
+                    deltaerr = Math.abs(deltax / (deltay + 1));
+                }
+                System.out.println("deltaerr" + deltaerr);
+                //invertemos aqui o tmpx e o tmp y
+                tmpx = xini;
+                for (tmpy = yini; tmpy < yfim - 1; tmpy++) {
+                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
+                    erro = erro + deltaerr;
+                    if (erro >= 0.0) {
+                        tmpx++;
+                        erro = erro - 1.0;
+                    }
+                }
+
+            } else if (angulo > 225 && angulo <= 270) {
+                //Quadrantre 2
+                //Será necessário inverter algumas veriaveis para que a linha base seja o eixo y e o algoritmo funcione
+
+                deltax = xini - xfim;
+
+                deltay = yfim - yini;
+
+                //inverte a divisao
+                if (deltay != 0) {
+                    deltaerr = Math.abs(deltax / deltay);
+                } else {
+                    deltaerr = Math.abs(deltax / (deltay + 1));
+                }
+                System.out.println("deltaerr" + deltaerr);
+                //invertemos aqui o tmpx e o tmp y
+                tmpx = xini;
+                for (tmpy = yini; tmpy < yfim - 1; tmpy++) {
+                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
+                    erro = erro + deltaerr;
+                    if (erro >= 0.0) {
+                        tmpx--;
+                        erro = erro - 1.0;
+                    }
+                }
+
+            } else if (angulo > 180 && angulo <= 225) {
+
+            } else if (angulo > 135 && angulo <= 180) {
+
+            } else if (angulo > 90 && angulo <= 135) {
+
+            } else if (angulo > 45 && angulo <= 90) {
+
+            } else {
 
             }
 
@@ -517,6 +619,16 @@ public class Visualizador extends javax.swing.JFrame {
         PontoButton.setSelected(false);
     }//GEN-LAST:event_RetaButtonActionPerformed
 
+    private static double getAngulo(int x1, int y1, int x2, int y2) {
+        double angulo = Math.atan2((x2 - x1), (y2 - y1)) * 180 / Math.PI;
+        angulo -= 90;
+        if (angulo < 0) {
+            return (360 + angulo);
+        } else {
+            return (angulo);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -538,7 +650,7 @@ public class Visualizador extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        
+
         //</editor-fold>
         //</editor-fold>
 
