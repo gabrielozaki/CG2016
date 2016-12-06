@@ -1,15 +1,12 @@
 package trabalhopratico1;
 
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -64,15 +61,15 @@ public class Visualizador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        imagemPanel = new javax.swing.JPanel();
+        ImagemPanel = new javax.swing.JPanel();
         ImagemLabel = new javax.swing.JLabel();
         PosLabel = new javax.swing.JLabel();
-        pontoButton = new javax.swing.JRadioButton();
-        retaButton = new javax.swing.JRadioButton();
+        PontoButton = new javax.swing.JRadioButton();
+        RetaButton = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         AbrirMenu = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        AcaoMenu = new javax.swing.JMenu();
         OriginalMenu = new javax.swing.JMenuItem();
         CinzaMenu = new javax.swing.JMenuItem();
         InverterMenu = new javax.swing.JMenuItem();
@@ -83,10 +80,10 @@ public class Visualizador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        imagemPanel.setBackground(new java.awt.Color(200, 200, 200));
-        imagemPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        ImagemPanel.setBackground(new java.awt.Color(200, 200, 200));
+        ImagemPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
-                imagemPanelMouseMoved(evt);
+                ImagemPanelMouseMoved(evt);
             }
         });
 
@@ -101,31 +98,31 @@ public class Visualizador extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout imagemPanelLayout = new javax.swing.GroupLayout(imagemPanel);
-        imagemPanel.setLayout(imagemPanelLayout);
-        imagemPanelLayout.setHorizontalGroup(
-            imagemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ImagemLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+        javax.swing.GroupLayout ImagemPanelLayout = new javax.swing.GroupLayout(ImagemPanel);
+        ImagemPanel.setLayout(ImagemPanelLayout);
+        ImagemPanelLayout.setHorizontalGroup(
+            ImagemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(ImagemLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        imagemPanelLayout.setVerticalGroup(
-            imagemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ImagemLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+        ImagemPanelLayout.setVerticalGroup(
+            ImagemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(ImagemLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         PosLabel.setText("(0,0)");
 
-        pontoButton.setSelected(true);
-        pontoButton.setText("Ponto");
-        pontoButton.addActionListener(new java.awt.event.ActionListener() {
+        PontoButton.setSelected(true);
+        PontoButton.setText("Ponto");
+        PontoButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pontoButtonActionPerformed(evt);
+                PontoButtonActionPerformed(evt);
             }
         });
 
-        retaButton.setText("Reta");
-        retaButton.addActionListener(new java.awt.event.ActionListener() {
+        RetaButton.setText("Reta");
+        RetaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                retaButtonActionPerformed(evt);
+                RetaButtonActionPerformed(evt);
             }
         });
 
@@ -141,7 +138,7 @@ public class Visualizador extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Ações");
+        AcaoMenu.setText("Ações");
 
         OriginalMenu.setText("Original");
         OriginalMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -149,7 +146,7 @@ public class Visualizador extends javax.swing.JFrame {
                 OriginalMenuActionPerformed(evt);
             }
         });
-        jMenu2.add(OriginalMenu);
+        AcaoMenu.add(OriginalMenu);
 
         CinzaMenu.setText("Obter Tons de Cinza");
         CinzaMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -157,7 +154,7 @@ public class Visualizador extends javax.swing.JFrame {
                 CinzaMenuActionPerformed(evt);
             }
         });
-        jMenu2.add(CinzaMenu);
+        AcaoMenu.add(CinzaMenu);
 
         InverterMenu.setText("Inverter Cores");
         InverterMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -165,7 +162,7 @@ public class Visualizador extends javax.swing.JFrame {
                 InverterMenuActionPerformed(evt);
             }
         });
-        jMenu2.add(InverterMenu);
+        AcaoMenu.add(InverterMenu);
 
         SeparaMenu.setText("Separar Canais");
 
@@ -193,9 +190,10 @@ public class Visualizador extends javax.swing.JFrame {
         });
         SeparaMenu.add(AzulMenu);
 
-        jMenu2.add(SeparaMenu);
+        AcaoMenu.add(SeparaMenu);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(AcaoMenu);
+        AcaoMenu.setVisible(false);
 
         setJMenuBar(jMenuBar1);
 
@@ -206,27 +204,31 @@ public class Visualizador extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(imagemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ImagemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(PosLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pontoButton)
+                        .addComponent(PontoButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(retaButton)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                        .addComponent(RetaButton)))
+                .addContainerGap(256, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(imagemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ImagemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pontoButton)
-                    .addComponent(retaButton)
+                    .addComponent(PontoButton)
+                    .addComponent(RetaButton)
                     .addComponent(PosLabel))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(298, Short.MAX_VALUE))
         );
+
+        PosLabel.setVisible(false);
+        PontoButton.setVisible(false);
+        RetaButton.setVisible(false);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -248,12 +250,17 @@ public class Visualizador extends javax.swing.JFrame {
                 //Abre a imagem
                 this.imagem = ImageIO.read(file);
                 this.original = clonaImagem(this.imagem);
-                //Faz o resize pra não ferrar com o layout
-                Image imagemTamanho = this.imagem.getScaledInstance(imagemPanel.getWidth(), imagemPanel.getHeight(), 0);
                 //Transforma em um icon pra gente passar para o jlabel
-                ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
+                ImageIcon imagemIcon = new ImageIcon(this.imagem);
                 //Coloca no jlabel
+                this.setSize(this.imagem.getWidth() + 150, this.imagem.getHeight() + 150);
+                ImagemPanel.setSize(this.imagem.getWidth(), this.imagem.getHeight());
+                ImagemLabel.setSize(this.imagem.getWidth(), this.imagem.getHeight());
                 ImagemLabel.setIcon(imagemIcon);
+                PosLabel.setVisible(true);
+                PontoButton.setVisible(true);
+                RetaButton.setVisible(true);
+                AcaoMenu.setVisible(true);
                 //imagemPanel.setSize(imagemPanel.getWidth(), imagemPanel.getHeight());
 
             } catch (IOException ex) {
@@ -269,7 +276,8 @@ public class Visualizador extends javax.swing.JFrame {
         //Cria uma cópia da imagem
         BufferedImage cinza = this.imagem;
         //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor = null;
+        Color cor;
+        
         //Variaveis para armazenar cada canal de cor
         float vermelho;
         float verde;
@@ -296,8 +304,7 @@ public class Visualizador extends javax.swing.JFrame {
         }
 
         //Insere no label
-        Image imagemTamanho = cinza.getScaledInstance(ImagemLabel.getWidth(), ImagemLabel.getHeight(), 0);
-        ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
+        ImageIcon imagemIcon = new ImageIcon(cinza);
         ImagemLabel.setIcon(imagemIcon);
 
     }//GEN-LAST:event_CinzaMenuActionPerformed
@@ -307,12 +314,11 @@ public class Visualizador extends javax.swing.JFrame {
         //Cria uma cópia da imagem
         BufferedImage inverte = this.imagem;
         //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor = null;
+        Color cor;
         //Variaveis para armazenar cada canal de cor
         float vermelho;
         float verde;
         float azul;
-        float luminosidade;
         //Percorre na horizontal
         for (int i = 0; i < inverte.getWidth(); i++) {
             //percorre na vertical
@@ -331,8 +337,7 @@ public class Visualizador extends javax.swing.JFrame {
         }
 
         //Insere no label
-        Image imagemTamanho = inverte.getScaledInstance(ImagemLabel.getWidth(), ImagemLabel.getHeight(), 0);
-        ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
+        ImageIcon imagemIcon = new ImageIcon(inverte);
         ImagemLabel.setIcon(imagemIcon);
 
     }//GEN-LAST:event_InverterMenuActionPerformed
@@ -341,8 +346,7 @@ public class Visualizador extends javax.swing.JFrame {
         // TODO add your handling code here:
         //Aqui usamos o ImagemLabel pq o panel muda de tamanho
         this.imagem = clonaImagem(original);
-        Image imagemTamanho = this.imagem.getScaledInstance(ImagemLabel.getWidth(), ImagemLabel.getHeight(), 0);
-        ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
+        ImageIcon imagemIcon = new ImageIcon(this.imagem);
         ImagemLabel.setIcon(imagemIcon);
 
     }//GEN-LAST:event_OriginalMenuActionPerformed
@@ -353,7 +357,7 @@ public class Visualizador extends javax.swing.JFrame {
         //Cria uma cópia da imagem
         BufferedImage separa = this.imagem;
         //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor = null;
+        Color cor;
         //Variaveis para armazenar cada canal de cor
         float vermelho;
 
@@ -372,8 +376,7 @@ public class Visualizador extends javax.swing.JFrame {
             }
         }
         //Insere no label
-        Image imagemTamanho = separa.getScaledInstance(ImagemLabel.getWidth(), ImagemLabel.getHeight(), 0);
-        ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
+        ImageIcon imagemIcon = new ImageIcon(separa);
         ImagemLabel.setIcon(imagemIcon);
     }//GEN-LAST:event_VermelhoMenuActionPerformed
 
@@ -382,7 +385,7 @@ public class Visualizador extends javax.swing.JFrame {
         //Cria uma cópia da imagem
         BufferedImage separa = this.imagem;
         //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor = null;
+        Color cor;
         //Variaveis para armazenar cada canal de cor
         float verde;
 
@@ -401,8 +404,7 @@ public class Visualizador extends javax.swing.JFrame {
             }
         }
         //Insere no label
-        Image imagemTamanho = separa.getScaledInstance(ImagemLabel.getWidth(), ImagemLabel.getHeight(), 0);
-        ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
+        ImageIcon imagemIcon = new ImageIcon(separa);
         ImagemLabel.setIcon(imagemIcon);
     }//GEN-LAST:event_VerdeMenuActionPerformed
 
@@ -411,7 +413,7 @@ public class Visualizador extends javax.swing.JFrame {
         //Cria uma cópia da imagem
         BufferedImage separa = this.imagem;
         //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor = null;
+        Color cor;
         //Variaveis para armazenar cada canal de cor
         float azul;
 
@@ -430,107 +432,71 @@ public class Visualizador extends javax.swing.JFrame {
             }
         }
         //Insere no label
-        Image imagemTamanho = separa.getScaledInstance(ImagemLabel.getWidth(), ImagemLabel.getHeight(), 0);
-        ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
+        ImageIcon imagemIcon = new ImageIcon(separa);
         ImagemLabel.setIcon(imagemIcon);
     }//GEN-LAST:event_AzulMenuActionPerformed
 
-    private void imagemPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imagemPanelMouseMoved
+    private void ImagemPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ImagemPanelMouseMoved
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_imagemPanelMouseMoved
+    }//GEN-LAST:event_ImagemPanelMouseMoved
 
     private void ImagemLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ImagemLabelMouseClicked
         // TODO add your handling code here:
         if (retaponto == false) {
             BufferedImage areaDesenho = this.imagem;
-            Point p = imagemPanel.getMousePosition();
+            Point p = ImagemPanel.getMousePosition();
             int x = (int) p.getX();
             int y = (int) p.getY();
-            int newx;
-            int newy;
-            double proporcaox;
-            double proporcaoy;
+
             Color cor = new Color(0, 0, 0);
-
-            proporcaox = (double) areaDesenho.getWidth() / ImagemLabel.getWidth();
-            proporcaoy = (double) areaDesenho.getHeight() / ImagemLabel.getHeight();
-            newx = (int) (x * proporcaox);
-            newy = (int) (y * proporcaoy);
-
             //Percorre na horizontal
-            for (int i = newx - 2; i <= newx + 2; i++) {
+            for (int i = x - 1; i <= x + 1; i++) {
                 //percorre na vertical
-                for (int j = newy - 2; j <= newy + 2; j++) {
+                for (int j = y - 1; j <= y + 1; j++) {
                     //pinta o pixel
                     areaDesenho.setRGB(i, j, cor.getRGB());
                 }
             }
             //Insere no label
-            Image imagemTamanho = areaDesenho.getScaledInstance(ImagemLabel.getWidth(), ImagemLabel.getHeight(), 0);
-
-            ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
+            ImageIcon imagemIcon = new ImageIcon(areaDesenho);
             ImagemLabel.setIcon(imagemIcon);
-        }else if(this.rini ==true){
+        } else if (this.rini == true) {
             this.rini = false;
             this.ini = ImagemLabel.getMousePosition();
-        }else{
+        } else {
             this.rini = true;
             this.fim = ImagemLabel.getMousePosition();
-            
+
             BufferedImage areaDesenho = this.imagem;
-            
-            int newxini,newxfim,tmpx;
-            int newyini,newyfim,tmpy;
-            double proporcaox;
-            double proporcaoy;
+
+            int xini, xfim, tmpx;
+            int yini, yfim, tmpy;
             double teta;
             Color cor = new Color(0, 0, 0);
 
-            
-            proporcaox = (double) areaDesenho.getWidth() / ImagemLabel.getWidth();
-            proporcaoy = (double) areaDesenho.getHeight() / ImagemLabel.getHeight();
-            newxini = (int) (this.ini.getX() * proporcaox);
-            newyini = (int) (this.ini.getY() * proporcaoy);
-            newxfim = (int) (this.fim.getX() * proporcaox);
-            newyfim = (int) (this.fim.getY() * proporcaoy);
-            
-        
-            for(int i=0;i<=1000;i++){
-                
+            xini = (int) (this.ini.getX());
+            yini = (int) (this.ini.getY());
+            xfim = (int) (this.fim.getX());
+            yfim = (int) (this.fim.getY());
+
+            for (int i = 0; i <= 1000; i++) {
+                //Desenha reta usando a formula parametrica 
                 teta = i * 0.001;
-                tmpx = (int) ((teta*newxini) + ((1-teta)*newxfim));
-                tmpy = (int) ((teta*newyini) + ((1-teta)*newyfim));
-                
-                //System.out.println("Origem:("+this.ini.getX()+","+this.ini.getY()+") Atual:("+tmpx+","+tmpy+") Destino:("+this.fim.getX()+","+this.fim.getY()+")");
-                /*
-                    |x-1 y-1,x y-1 , x+1 y-1 |
-                    |x-1 y  ,xy, x+1 y |
-                    |x-1 y+1,xy+1 ,x+1 y+1 |
-                */
-                areaDesenho.setRGB(tmpx-1, tmpy-1, cor.getRGB());
-                areaDesenho.setRGB(tmpx, tmpy-1, cor.getRGB());
-                areaDesenho.setRGB(tmpx+1, tmpy-1, cor.getRGB());
-                
-                areaDesenho.setRGB(tmpx-1, tmpy, cor.getRGB());
+                tmpx = (int) ((teta * xini) + ((1 - teta) * xfim));
+                tmpy = (int) ((teta * yini) + ((1 - teta) * yfim));
+
                 areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
-                areaDesenho.setRGB(tmpx+1, tmpy, cor.getRGB());
-                
-                areaDesenho.setRGB(tmpx-1, tmpy+1, cor.getRGB());
-                areaDesenho.setRGB(tmpx, tmpy+1, cor.getRGB());
-                areaDesenho.setRGB(tmpx+1, tmpy+1, cor.getRGB());
+
             }
 
             //Insere no label
-            Image imagemTamanho = areaDesenho.getScaledInstance(ImagemLabel.getWidth(), ImagemLabel.getHeight(), 0);
-
-            ImageIcon imagemIcon = new ImageIcon(imagemTamanho);
+            ImageIcon imagemIcon = new ImageIcon(areaDesenho);
             ImagemLabel.setIcon(imagemIcon);
-            
-            
+
         }
-        
-        
+
+
     }//GEN-LAST:event_ImagemLabelMouseClicked
 
     private void ImagemLabelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ImagemLabelMouseMoved
@@ -539,17 +505,17 @@ public class Visualizador extends javax.swing.JFrame {
         PosLabel.setText("(" + Math.round(p.getX()) + "," + Math.round(p.getY()) + ")");
     }//GEN-LAST:event_ImagemLabelMouseMoved
 
-    private void pontoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pontoButtonActionPerformed
+    private void PontoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PontoButtonActionPerformed
         // TODO add your handling code here:
-        this.retaponto=false;
-        retaButton.setSelected(false);
-    }//GEN-LAST:event_pontoButtonActionPerformed
+        this.retaponto = false;
+        RetaButton.setSelected(false);
+    }//GEN-LAST:event_PontoButtonActionPerformed
 
-    private void retaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retaButtonActionPerformed
+    private void RetaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RetaButtonActionPerformed
         // TODO add your handling code here:
-        this.retaponto=true;
-        pontoButton.setSelected(false);
-    }//GEN-LAST:event_retaButtonActionPerformed
+        this.retaponto = true;
+        PontoButton.setSelected(false);
+    }//GEN-LAST:event_RetaButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -567,42 +533,37 @@ public class Visualizador extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Visualizador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Visualizador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Visualizador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Visualizador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Visualizador().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Visualizador().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AbrirMenu;
+    private javax.swing.JMenu AcaoMenu;
     private javax.swing.JMenuItem AzulMenu;
     private javax.swing.JMenuItem CinzaMenu;
     private javax.swing.JLabel ImagemLabel;
+    private javax.swing.JPanel ImagemPanel;
     private javax.swing.JMenuItem InverterMenu;
     private javax.swing.JMenuItem OriginalMenu;
+    private javax.swing.JRadioButton PontoButton;
     private javax.swing.JLabel PosLabel;
+    private javax.swing.JRadioButton RetaButton;
     private javax.swing.JMenu SeparaMenu;
     private javax.swing.JMenuItem VerdeMenu;
     private javax.swing.JMenuItem VermelhoMenu;
-    private javax.swing.JPanel imagemPanel;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JRadioButton pontoButton;
-    private javax.swing.JRadioButton retaButton;
     // End of variables declaration//GEN-END:variables
 }

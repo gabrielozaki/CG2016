@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
@@ -19,10 +19,13 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
+        <Menu class="javax.swing.JMenu" name="AcaoMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="A&#xe7;&#xf5;es"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="AcaoMenu.setVisible(false);"/>
+          </AuxValues>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="OriginalMenu">
               <Properties>
@@ -110,16 +113,16 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="imagemPanel" min="-2" max="-2" attributes="0"/>
+                  <Component id="ImagemPanel" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="PosLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="pontoButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="PontoButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="retaButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="RetaButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="26" max="32767" attributes="0"/>
+              <EmptySpace pref="256" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -127,38 +130,38 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-              <Component id="imagemPanel" min="-2" max="-2" attributes="0"/>
+              <Component id="ImagemPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="pontoButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="retaButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="PontoButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="RetaButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="PosLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace pref="298" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="imagemPanel">
+    <Container class="javax.swing.JPanel" name="ImagemPanel">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="c8" green="c8" red="c8" type="rgb"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="imagemPanelMouseMoved"/>
+        <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="ImagemPanelMouseMoved"/>
       </Events>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="ImagemLabel" alignment="1" pref="554" max="32767" attributes="0"/>
+              <Component id="ImagemLabel" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="ImagemLabel" alignment="1" pref="363" max="32767" attributes="0"/>
+              <Component id="ImagemLabel" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -175,23 +178,32 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="(0,0)"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="PosLabel.setVisible(false);"/>
+      </AuxValues>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="pontoButton">
+    <Component class="javax.swing.JRadioButton" name="PontoButton">
       <Properties>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Ponto"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pontoButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PontoButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="PontoButton.setVisible(false);"/>
+      </AuxValues>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="retaButton">
+    <Component class="javax.swing.JRadioButton" name="RetaButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Reta"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="retaButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RetaButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="RetaButton.setVisible(false);"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
