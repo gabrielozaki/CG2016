@@ -1,6 +1,5 @@
 package trabalhopratico1;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
@@ -23,13 +22,19 @@ import javax.swing.JFileChooser;
  * @author gabrielozaki
  */
 public class Visualizador extends javax.swing.JFrame {
-
+    //Imagem a ser manipulada
     BufferedImage imagem;
+    //Cópia da imagem original, para podermos restaurar
     BufferedImage original;
+    //Pontos da reta
     Point ini;
     Point fim;
-    boolean rini = true;
+    //Verifica se é o primeiro ponto da reta
+    boolean primeiroClick = true;
+    //Verifica se vai desenhar uma reta ou ponto
     boolean retaponto = false;
+    //Classe de algoritmos
+    Algoritmos a = new Algoritmos();
 
     /**
      * Creates new form visualizador
@@ -273,72 +278,17 @@ public class Visualizador extends javax.swing.JFrame {
 
     private void CinzaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CinzaMenuActionPerformed
         // TODO add your handling code here:
-        //Cria uma cópia da imagem
-        BufferedImage cinza = this.imagem;
-        //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor;
-
-        //Variaveis para armazenar cada canal de cor
-        float vermelho;
-        float verde;
-        float azul;
-        float luminosidade;
-        //Percorre na horizontal
-        for (int i = 0; i < cinza.getWidth(); i++) {
-            //percorre na vertical
-            for (int j = 0; j < cinza.getHeight(); j++) {
-                //Obtem a cor no ponto i j
-                cor = new Color(cinza.getRGB(i, j));
-                //Converte cada canal
-                //O resultado deve ser divisivel por 255 pois o Color só aceita valores entre 0 e 1
-                vermelho = (float) (cor.getRed() * 0.299) / 255;
-                verde = (float) (cor.getGreen() * 0.587) / 255;
-                azul = (float) (cor.getBlue() * 0.114) / 255;
-                //Formula da luminosidade
-                //I= 0.299R + 0.587G + 0.114B
-                luminosidade = vermelho + azul + vermelho;
-                cor = new Color(luminosidade, luminosidade, luminosidade);
-                //pinta o pixel
-                cinza.setRGB(i, j, cor.getRGB());
-            }
-        }
-
         //Insere no label
-        ImageIcon imagemIcon = new ImageIcon(cinza);
-        ImagemLabel.setIcon(imagemIcon);
+        //ImagemLabel.setIcon(new ImageIcon(a.cinzaMedia(this.imagem)));
+        ImagemLabel.setIcon(new ImageIcon(a.cinzaLuminecencia(this.imagem)));
+
 
     }//GEN-LAST:event_CinzaMenuActionPerformed
 
     private void InverterMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InverterMenuActionPerformed
         // TODO add your handling code here:
-        //Cria uma cópia da imagem
-        BufferedImage inverte = this.imagem;
-        //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor;
-        //Variaveis para armazenar cada canal de cor
-        float vermelho;
-        float verde;
-        float azul;
-        //Percorre na horizontal
-        for (int i = 0; i < inverte.getWidth(); i++) {
-            //percorre na vertical
-            for (int j = 0; j < inverte.getHeight(); j++) {
-                //Obtem a cor no ponto i j
-                cor = new Color(inverte.getRGB(i, j));
-                //Converte cada canal
-                //O resultado deve ser divisivel por 255 pois o Color só aceita valores entre 0 e 1
-                vermelho = (float) (255 - cor.getRed()) / 255;
-                verde = (float) (255 - cor.getGreen()) / 255;
-                azul = (float) (255 - cor.getBlue()) / 255;
-                cor = new Color(vermelho, verde, azul);
-                //pinta o pixel
-                inverte.setRGB(i, j, cor.getRGB());
-            }
-        }
-
         //Insere no label
-        ImageIcon imagemIcon = new ImageIcon(inverte);
-        ImagemLabel.setIcon(imagemIcon);
+        ImagemLabel.setIcon(new ImageIcon(a.inverteCores(this.imagem)));
 
     }//GEN-LAST:event_InverterMenuActionPerformed
 
@@ -346,94 +296,23 @@ public class Visualizador extends javax.swing.JFrame {
         // TODO add your handling code here:
         //Aqui usamos o ImagemLabel pq o panel muda de tamanho
         this.imagem = clonaImagem(original);
-        ImageIcon imagemIcon = new ImageIcon(this.imagem);
-        ImagemLabel.setIcon(imagemIcon);
+        ImagemLabel.setIcon(new ImageIcon(this.imagem));
 
     }//GEN-LAST:event_OriginalMenuActionPerformed
 
     private void VermelhoMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VermelhoMenuActionPerformed
-        // TODO add your handling code here:
-        // TODO add your handling code here:
-        //Cria uma cópia da imagem
-        BufferedImage separa = this.imagem;
-        //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor;
-        //Variaveis para armazenar cada canal de cor
-        float vermelho;
-
-        //Percorre na horizontal
-        for (int i = 0; i < separa.getWidth(); i++) {
-            //percorre na vertical
-            for (int j = 0; j < separa.getHeight(); j++) {
-                //Obtem a cor no ponto i j
-                cor = new Color(separa.getRGB(i, j));
-                //Converte cada canal
-                //O resultado deve ser divisivel por 255 pois o Color só aceita valores entre 0 e 1
-                vermelho = (float) (cor.getRed()) / 255;
-                cor = new Color(vermelho, 0, 0);
-                //pinta o pixel
-                separa.setRGB(i, j, cor.getRGB());
-            }
-        }
         //Insere no label
-        ImageIcon imagemIcon = new ImageIcon(separa);
-        ImagemLabel.setIcon(imagemIcon);
+        ImagemLabel.setIcon(new ImageIcon(a.separaCanal(this.imagem, "Vermelho")));
     }//GEN-LAST:event_VermelhoMenuActionPerformed
 
     private void VerdeMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerdeMenuActionPerformed
-        // TODO add your handling code here:
-        //Cria uma cópia da imagem
-        BufferedImage separa = this.imagem;
-        //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor;
-        //Variaveis para armazenar cada canal de cor
-        float verde;
-
-        //Percorre na horizontal
-        for (int i = 0; i < separa.getWidth(); i++) {
-            //percorre na vertical
-            for (int j = 0; j < separa.getHeight(); j++) {
-                //Obtem a cor no ponto i j
-                cor = new Color(separa.getRGB(i, j));
-                //Converte cada canal
-                //O resultado deve ser divisivel por 255 pois o Color só aceita valores entre 0 e 1
-                verde = (float) (cor.getGreen()) / 255;
-                cor = new Color(0, verde, 0);
-                //pinta o pixel
-                separa.setRGB(i, j, cor.getRGB());
-            }
-        }
         //Insere no label
-        ImageIcon imagemIcon = new ImageIcon(separa);
-        ImagemLabel.setIcon(imagemIcon);
+        ImagemLabel.setIcon(new ImageIcon(a.separaCanal(this.imagem, "Verde")));
     }//GEN-LAST:event_VerdeMenuActionPerformed
 
     private void AzulMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AzulMenuActionPerformed
-        // TODO add your handling code here:
-        //Cria uma cópia da imagem
-        BufferedImage separa = this.imagem;
-        //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor;
-        //Variaveis para armazenar cada canal de cor
-        float azul;
-
-        //Percorre na horizontal
-        for (int i = 0; i < separa.getWidth(); i++) {
-            //percorre na vertical
-            for (int j = 0; j < separa.getHeight(); j++) {
-                //Obtem a cor no ponto i j
-                cor = new Color(separa.getRGB(i, j));
-                //Converte cada canal
-                //O resultado deve ser divisivel por 255 pois o Color só aceita valores entre 0 e 1
-                azul = (float) (cor.getGreen()) / 255;
-                cor = new Color(0, 0, azul);
-                //pinta o pixel
-                separa.setRGB(i, j, cor.getRGB());
-            }
-        }
         //Insere no label
-        ImageIcon imagemIcon = new ImageIcon(separa);
-        ImagemLabel.setIcon(imagemIcon);
+        ImagemLabel.setIcon(new ImageIcon(a.separaCanal(this.imagem, "Azul")));
     }//GEN-LAST:event_AzulMenuActionPerformed
 
     private void ImagemPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ImagemPanelMouseMoved
@@ -444,261 +323,24 @@ public class Visualizador extends javax.swing.JFrame {
     private void ImagemLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ImagemLabelMouseClicked
         // TODO add your handling code here:
         if (retaponto == false) {
-            BufferedImage areaDesenho = this.imagem;
-            Point p = ImagemPanel.getMousePosition();
-            int x = (int) p.getX();
-            int y = (int) p.getY();
+            //Insere ponto no label
+            ImagemLabel.setIcon(new ImageIcon(a.desenhaPonto(this.imagem, ImagemPanel.getMousePosition())));
 
-            Color cor = new Color(0, 0, 0);
-            //Percorre na horizontal
-            for (int i = x - 1; i <= x + 1; i++) {
-                //percorre na vertical
-                for (int j = y - 1; j <= y + 1; j++) {
-                    //pinta o pixel
-                    areaDesenho.setRGB(i, j, cor.getRGB());
-                }
-            }
-            //Insere no label
-            ImageIcon imagemIcon = new ImageIcon(areaDesenho);
-            ImagemLabel.setIcon(imagemIcon);
-        } else if (this.rini == true) {
-            this.rini = false;
+        } else if (this.primeiroClick == true) {
+            //Marca que ocorreu o primeiro clique
+            this.primeiroClick = false;
             this.ini = ImagemLabel.getMousePosition();
             System.out.println("Primeiro clique:" + this.ini.getX() + "," + this.ini.getY());
+
         } else {
-            this.rini = true;
+            //Marca que o primeiro clique deve ser marcado de novo
+            this.primeiroClick = true;
             this.fim = ImagemLabel.getMousePosition();
             System.out.println("Segundo clique:" + this.fim.getX() + "," + this.fim.getY());
-            BufferedImage areaDesenho = this.imagem;
-
-            int xini, xfim, tmpx;
-            int yini, yfim, tmpy;
-            int tmp;
-            // double teta;
-            double deltax, deltay;
-            double erro = -1.0;
-            double deltaerr;
-            double angulo;
-
-            Color cor = new Color(0, 0, 0);
-
-            xini = (int) (this.ini.getX());
-            yini = (int) (this.ini.getY());
-            xfim = (int) (this.fim.getX());
-            yfim = (int) (this.fim.getY());
-
-            /*            for (int i = 0; i <= 1000; i++) {
-                //Desenha reta usando a formula parametrica 
-                teta = i * 0.001;
-                tmpx = (int) ((teta * xini) + ((1 - teta) * xfim));
-                tmpy = (int) ((teta * yini) + ((1 - teta) * yfim));
-
-                areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
-
-            }
-             */
-            //Bresenham
-            //Considerando um circulo trigonometrico invertido(o java mapeia a imagem de baixo pra cima, então o algoritmo funciona de 315 a 360 graus
-            // System.out.println(getAngulo(xini, yini, xfim, yfim));
-            angulo = getAngulo(xini, yini, xfim, yfim);
-            /*
-             Octants:
-             \5|6/
-             4\|/7
-            ---+---
-             3/|\0
-             /2|1\
-            
-             */
-            if (angulo > 315 && angulo <= 360) {
-                //quadratne 0
-                deltax = xfim - xini;
-                deltay = yfim - yini;
-
-                if (deltax != 0) {
-                    deltaerr = Math.abs(deltay / deltax);
-                } else {
-                    deltaerr = Math.abs(deltay / (deltax + 1));
-                }
-
-                tmpy = yini;
-                for (tmpx = xini; tmpx < xfim - 1; tmpx++) {
-                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
-                    erro = erro + deltaerr;
-                    if (erro >= 0.0) {
-                        tmpy++;
-                        erro = erro - 1.0;
-                    }
-                }
-            } else if (angulo > 270 && angulo <= 315) {
-                //Quadrante 1
-                //Será necessário inverter algumas veriaveis para que a linha base seja o eixo y e o algoritmo funcione
-                deltax = xfim - xini;
-
-                deltay = yfim - yini;
-
-                //inverte a divisao
-                if (deltay != 0) {
-                    deltaerr = Math.abs(deltax / deltay);
-                } else {
-                    deltaerr = Math.abs(deltax / (deltay + 1));
-                }
-                //invertemos aqui o tmpx e o tmp y
-                tmpx = xini;
-                for (tmpy = yini; tmpy < yfim - 1; tmpy++) {
-                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
-                    erro = erro + deltaerr;
-                    if (erro >= 0.0) {
-                        tmpx++;
-                        erro = erro - 1.0;
-                    }
-                }
-
-            } else if (angulo > 225 && angulo <= 270) {
-                //Quadrantre 2
-                //Será necessário inverter algumas veriaveis para que a linha base seja o eixo y e o algoritmo funcione
-
-                deltax = xini - xfim;
-
-                deltay = yfim - yini;
-
-                //inverte a divisao
-                if (deltay != 0) {
-                    deltaerr = Math.abs(deltax / deltay);
-                } else {
-                    deltaerr = Math.abs(deltax / (deltay + 1));
-                }
-
-                //invertemos aqui o tmpx e o tmp y
-                tmpx = xini;
-                for (tmpy = yini; tmpy < yfim - 1; tmpy++) {
-                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
-                    erro = erro + deltaerr;
-                    if (erro >= 0.0) {
-                        tmpx--;
-                        erro = erro - 1.0;
-                    }
-                }
-
-            } else if (angulo > 180 && angulo <= 225) {
-                //quadratne 3
-                //inverte a coordenada X
-                deltax = xini - xfim;
-                deltay = yfim - yini;
-
-                if (deltax != 0) {
-                    deltaerr = Math.abs(deltay / deltax);
-                } else {
-                    deltaerr = Math.abs(deltay / (deltax + 1));
-                }
-                //começamos a desenhar a partir do fim
-                tmpy = yfim;
-                for (tmpx = xfim; tmpx < xini - 1; tmpx++) {
-                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
-                    erro = erro + deltaerr;
-                    if (erro >= 0.0) {
-                        tmpy--;
-                        erro = erro - 1.0;
-                    }
-                }
-            } else if (angulo > 135 && angulo <= 180) {
-                //quadratne 4
-                //igual ao quadrante 0 so que invertendo ini e fim      
-                deltax = xini - xfim;
-                deltay = yini - yfim;
-
-                if (deltax != 0) {
-                    deltaerr = Math.abs(deltay / deltax);
-                } else {
-                    deltaerr = Math.abs(deltay / (deltax + 1));
-                }
-
-                tmpy = yfim;
-                for (tmpx = xfim; tmpx < xini - 1; tmpx++) {
-                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
-                    erro = erro + deltaerr;
-                    if (erro >= 0.0) {
-                        tmpy++;
-                        erro = erro - 1.0;
-                    }
-                }
-            } else if (angulo > 90 && angulo <= 135) {
-                //Quadrante 5
-                //igual ao quadrante 1 so que invertendo ini e fim
-                //Será necessário inverter algumas veriaveis para que a linha base seja o eixo y e o algoritmo funcione
-                deltax = xini - xfim;
-
-                deltay = yini - yfim;
-
-                //inverte a divisao
-                if (deltay != 0) {
-                    deltaerr = Math.abs(deltax / deltay);
-                } else {
-                    deltaerr = Math.abs(deltax / (deltay + 1));
-                }
-                //invertemos aqui o tmpx e o tmp y
-                tmpx = xfim;
-                for (tmpy = yfim; tmpy < yini - 1; tmpy++) {
-                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
-                    erro = erro + deltaerr;
-                    if (erro >= 0.0) {
-                        tmpx++;
-                        erro = erro - 1.0;
-                    }
-                }
-            } else if (angulo > 45 && angulo <= 90) {
-                //Quadrantre 6
-                //igual ao quadrante 2 so que invertendo ini e fim
-                //Será necessário inverter algumas veriaveis para que a linha base seja o eixo y e o algoritmo funcione
-
-                deltax = xfim - xini;
-
-                deltay = yini - yfim;
-
-                //inverte a divisao
-                if (deltay != 0) {
-                    deltaerr = Math.abs(deltax / deltay);
-                } else {
-                    deltaerr = Math.abs(deltax / (deltay + 1));
-                }
-
-                //invertemos aqui o tmpx e o tmp y
-                tmpx = xfim;
-                for (tmpy = yfim; tmpy < yini - 1; tmpy++) {
-                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
-                    erro = erro + deltaerr;
-                    if (erro >= 0.0) {
-                        tmpx--;
-                        erro = erro - 1.0;
-                    }
-                }
-
-            } else {
-                //quadratne 7
-                //Igual ao 3 so que inverte ini e fim
-                deltax = xfim - xini;
-                deltay = yini - yfim;
-
-                if (deltax != 0) {
-                    deltaerr = Math.abs(deltay / deltax);
-                } else {
-                    deltaerr = Math.abs(deltay / (deltax + 1));
-                }
-                //começamos a desenhar a partir do fim
-                tmpy = yini;
-                for (tmpx = xini; tmpx < xfim - 1; tmpx++) {
-                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
-                    erro = erro + deltaerr;
-                    if (erro >= 0.0) {
-                        tmpy--;
-                        erro = erro - 1.0;
-                    }
-                }
-            }
 
             //Insere no label
-            ImageIcon imagemIcon = new ImageIcon(areaDesenho);
-            ImagemLabel.setIcon(imagemIcon);
+            //ImagemLabel.setIcon(new ImageIcon(a.desenhaRetaParametrica(this.imagem,this.ini,this.fim,1000)));
+            ImagemLabel.setIcon(new ImageIcon(a.desenhaRetaBresenham(this.imagem, this.ini, this.fim)));
 
         }
 
@@ -722,16 +364,6 @@ public class Visualizador extends javax.swing.JFrame {
         this.retaponto = true;
         PontoButton.setSelected(false);
     }//GEN-LAST:event_RetaButtonActionPerformed
-
-    private static double getAngulo(int x1, int y1, int x2, int y2) {
-        double angulo = Math.atan2((x2 - x1), (y2 - y1)) * 180 / Math.PI;
-        angulo -= 90;
-        if (angulo < 0) {
-            return (360 + angulo);
-        } else {
-            return (angulo);
-        }
-    }
 
     /**
      * @param args the command line arguments
