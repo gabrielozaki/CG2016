@@ -464,10 +464,11 @@ public class Visualizador extends javax.swing.JFrame {
         } else if (this.rini == true) {
             this.rini = false;
             this.ini = ImagemLabel.getMousePosition();
+            System.out.println("Primeiro clique:" + this.ini.getX() + "," + this.ini.getY());
         } else {
             this.rini = true;
             this.fim = ImagemLabel.getMousePosition();
-
+            System.out.println("Segundo clique:" + this.fim.getX() + "," + this.fim.getY());
             BufferedImage areaDesenho = this.imagem;
 
             int xini, xfim, tmpx;
@@ -498,7 +499,7 @@ public class Visualizador extends javax.swing.JFrame {
              */
             //Bresenham
             //Considerando um circulo trigonometrico invertido(o java mapeia a imagem de baixo pra cima, então o algoritmo funciona de 315 a 360 graus
-           // System.out.println(getAngulo(xini, yini, xfim, yfim));
+            // System.out.println(getAngulo(xini, yini, xfim, yfim));
             angulo = getAngulo(xini, yini, xfim, yfim);
             /*
              Octants:
@@ -542,7 +543,6 @@ public class Visualizador extends javax.swing.JFrame {
                 } else {
                     deltaerr = Math.abs(deltax / (deltay + 1));
                 }
-                System.out.println("deltaerr" + deltaerr);
                 //invertemos aqui o tmpx e o tmp y
                 tmpx = xini;
                 for (tmpy = yini; tmpy < yfim - 1; tmpy++) {
@@ -568,7 +568,7 @@ public class Visualizador extends javax.swing.JFrame {
                 } else {
                     deltaerr = Math.abs(deltax / (deltay + 1));
                 }
-                System.out.println("deltaerr" + deltaerr);
+
                 //invertemos aqui o tmpx e o tmp y
                 tmpx = xini;
                 for (tmpy = yini; tmpy < yfim - 1; tmpy++) {
@@ -581,15 +581,119 @@ public class Visualizador extends javax.swing.JFrame {
                 }
 
             } else if (angulo > 180 && angulo <= 225) {
+                //quadratne 3
+                //inverte a coordenada X
+                deltax = xini - xfim;
+                deltay = yfim - yini;
 
+                if (deltax != 0) {
+                    deltaerr = Math.abs(deltay / deltax);
+                } else {
+                    deltaerr = Math.abs(deltay / (deltax + 1));
+                }
+                //começamos a desenhar a partir do fim
+                tmpy = yfim;
+                for (tmpx = xfim; tmpx < xini - 1; tmpx++) {
+                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
+                    erro = erro + deltaerr;
+                    if (erro >= 0.0) {
+                        tmpy--;
+                        erro = erro - 1.0;
+                    }
+                }
             } else if (angulo > 135 && angulo <= 180) {
+                //quadratne 4
+                //igual ao quadrante 0 so que invertendo ini e fim      
+                deltax = xini - xfim;
+                deltay = yini - yfim;
 
+                if (deltax != 0) {
+                    deltaerr = Math.abs(deltay / deltax);
+                } else {
+                    deltaerr = Math.abs(deltay / (deltax + 1));
+                }
+
+                tmpy = yfim;
+                for (tmpx = xfim; tmpx < xini - 1; tmpx++) {
+                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
+                    erro = erro + deltaerr;
+                    if (erro >= 0.0) {
+                        tmpy++;
+                        erro = erro - 1.0;
+                    }
+                }
             } else if (angulo > 90 && angulo <= 135) {
+                //Quadrante 5
+                //igual ao quadrante 1 so que invertendo ini e fim
+                //Será necessário inverter algumas veriaveis para que a linha base seja o eixo y e o algoritmo funcione
+                deltax = xini - xfim;
 
+                deltay = yini - yfim;
+
+                //inverte a divisao
+                if (deltay != 0) {
+                    deltaerr = Math.abs(deltax / deltay);
+                } else {
+                    deltaerr = Math.abs(deltax / (deltay + 1));
+                }
+                //invertemos aqui o tmpx e o tmp y
+                tmpx = xfim;
+                for (tmpy = yfim; tmpy < yini - 1; tmpy++) {
+                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
+                    erro = erro + deltaerr;
+                    if (erro >= 0.0) {
+                        tmpx++;
+                        erro = erro - 1.0;
+                    }
+                }
             } else if (angulo > 45 && angulo <= 90) {
+                //Quadrantre 6
+                //igual ao quadrante 2 so que invertendo ini e fim
+                //Será necessário inverter algumas veriaveis para que a linha base seja o eixo y e o algoritmo funcione
+
+                deltax = xfim - xini;
+
+                deltay = yini - yfim;
+
+                //inverte a divisao
+                if (deltay != 0) {
+                    deltaerr = Math.abs(deltax / deltay);
+                } else {
+                    deltaerr = Math.abs(deltax / (deltay + 1));
+                }
+
+                //invertemos aqui o tmpx e o tmp y
+                tmpx = xfim;
+                for (tmpy = yfim; tmpy < yini - 1; tmpy++) {
+                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
+                    erro = erro + deltaerr;
+                    if (erro >= 0.0) {
+                        tmpx--;
+                        erro = erro - 1.0;
+                    }
+                }
 
             } else {
+                //quadratne 7
+                //Igual ao 3 so que inverte ini e fim
+                deltax = xfim - xini;
+                deltay = yini - yfim;
 
+                if (deltax != 0) {
+                    deltaerr = Math.abs(deltay / deltax);
+                } else {
+                    deltaerr = Math.abs(deltay / (deltax + 1));
+                }
+                //começamos a desenhar a partir do fim
+                tmpy = yini;
+                for (tmpx = xini; tmpx < xfim - 1; tmpx++) {
+                    areaDesenho.setRGB(tmpx, tmpy, cor.getRGB());
+                    erro = erro + deltaerr;
+                    if (erro >= 0.0) {
+                        tmpy--;
+                        erro = erro - 1.0;
+                    }
+                }
             }
 
             //Insere no label
