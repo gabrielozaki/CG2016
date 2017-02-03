@@ -3,20 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package trabalhopratico1;
+package trabalhocasa3d;
 
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.util.Arrays;
 
 /**
  *
  * @author gabrielozaki
  */
 public class Algoritmos {
-
+    
     public static void Algoritmos() {
-
+        
+    }
+    
+    public static BufferedImage criaImagem(int width, int heigth) {
+        BufferedImage img = new BufferedImage(width, heigth, BufferedImage.TYPE_INT_ARGB);
+        Color cor = new Color(255, 255, 255);
+        
+        int[] data = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
+        Arrays.fill(data, cor.getRGB());
+        return img;
     }
 
     //Obtem angulo entre dois pontos
@@ -38,7 +49,7 @@ public class Algoritmos {
         }
     }
     
-    public static double getDistancia(Point ini,Point fim){
+    public static double getDistancia(Point ini, Point fim) {
         //Armazena as coordenads
         int x1 = (int) ini.getX();
         int y1 = (int) ini.getY();
@@ -46,141 +57,19 @@ public class Algoritmos {
         int y2 = (int) fim.getY();
         int deltax, deltay;
         
-        if(x1 >= x2){
+        if (x1 >= x2) {
             deltax = x1 - x2;
-        }else{
+        } else {
             deltax = x2 - x1;
         }
         
-        if(y1 >= y2){
+        if (y1 >= y2) {
             deltay = y1 - y2;
-        }else{
+        } else {
             deltay = y2 - y1;
         }
         
-        
-        return  Math.sqrt((deltax*deltax)+(deltay*deltay));
-    }
-
-    //Pega uma imagem e inverte suas cores
-    public BufferedImage inverteCores(BufferedImage img) {
-        //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor;
-        //Variaveis para armazenar cada canal de cor
-        float vermelho;
-        float verde;
-        float azul;
-        //Percorre na horizontal
-        for (int i = 0; i < img.getWidth(); i++) {
-            //percorre na vertical
-            for (int j = 0; j < img.getHeight(); j++) {
-                //Obtem a cor no ponto i j
-                cor = new Color(img.getRGB(i, j));
-                //Converte cada canal
-                //O resultado deve ser divisivel por 255 pois o Color só aceita valores entre 0 e 1
-                vermelho = (float) (255 - cor.getRed()) / 255;
-                verde = (float) (255 - cor.getGreen()) / 255;
-                azul = (float) (255 - cor.getBlue()) / 255;
-                cor = new Color(vermelho, verde, azul);
-                //pinta o pixel
-                img.setRGB(i, j, cor.getRGB());
-            }
-        }
-
-        return img;
-    }
-
-    //Passa a imagem para escala de cinza utilizando a formula da luminecencia
-    public BufferedImage cinzaLuminecencia(BufferedImage img) {
-
-        //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor;
-        //Variaveis para armazenar cada canal de cor
-        float vermelho, verde, azul, luminosidade;
-        //Percorre na horizontal
-        for (int i = 0; i < img.getWidth(); i++) {
-            //percorre na vertical
-            for (int j = 0; j < img.getHeight(); j++) {
-                //Obtem a cor no ponto i j
-                cor = new Color(img.getRGB(i, j));
-                //Converte cada canal
-                //O resultado deve ser divisivel por 255 pois o Color só aceita valores entre 0 e 1
-                vermelho = (float) (cor.getRed() * 0.299) / 255;
-                verde = (float) (cor.getGreen() * 0.587) / 255;
-                azul = (float) (cor.getBlue() * 0.114) / 255;
-                //Formula da luminosidade
-                //I= 0.299R + 0.587G + 0.114B
-                luminosidade = vermelho + verde + azul;
-                cor = new Color(luminosidade, luminosidade, luminosidade);
-                //pinta o pixel
-                img.setRGB(i, j, cor.getRGB());
-            }
-        }
-
-        return img;
-    }
-
-    //Passa a imagem para escala de cinaza a partir da média entre o RGB
-    public BufferedImage cinzaMedia(BufferedImage img) {
-        //Variavel temporaria cor, vamos utilizar em todo pixel da imagem
-        Color cor;
-        //Variaveis para armazenar cada canal de cor
-        float vermelho, verde, azul, media;
-        //Percorre na horizontal
-        for (int i = 0; i < img.getWidth(); i++) {
-            //percorre na vertical
-            for (int j = 0; j < img.getHeight(); j++) {
-                //Obtem a cor no ponto i j
-                cor = new Color(img.getRGB(i, j));
-                //Converte cada canal
-                //O resultado deve ser divisivel por 255 pois o Color só aceita valores entre 0 e 1
-                vermelho = (float) (cor.getRed()) / 255;
-                verde = (float) (cor.getGreen()) / 255;
-                azul = (float) (cor.getBlue()) / 255;
-
-                //Tira a média
-                media = (vermelho + verde + azul) / 3;
-                cor = new Color(media, media, media);
-                //pinta o pixel
-                img.setRGB(i, j, cor.getRGB());
-            }
-        }
-
-        return img;
-    }
-
-    //Separa o canal(vermelho, verde ou azul)
-    public BufferedImage separaCanal(BufferedImage img, String canal) {
-        //Variaveis para armazenar cada canal de cor
-        float rgb;
-        Color cor;
-        //Percorre na horizontal
-        for (int i = 0; i < img.getWidth(); i++) {
-            //percorre na vertical
-            for (int j = 0; j < img.getHeight(); j++) {
-                //Obtem a cor no ponto i j
-                cor = new Color(img.getRGB(i, j));
-                //Converte cada canal
-                //O resultado deve ser divisivel por 255 pois o Color só aceita valores entre 0 e 1
-                switch (canal) {
-                    case "Vermelho":
-                        rgb = (float) (cor.getRed()) / 255;
-                        cor = new Color(rgb, 0, 0);
-                        break;
-                    case "Verde":
-                        rgb = (float) (cor.getGreen()) / 255;
-                        cor = new Color(0, rgb, 0);
-                        break;
-                    default:
-                        rgb = (float) (cor.getBlue()) / 255;
-                        cor = new Color(0, 0, rgb);
-                        break;
-                }
-                //pinta o pixel
-                img.setRGB(i, j, cor.getRGB());
-            }
-        }
-        return img;
+        return Math.sqrt((deltax * deltax) + (deltay * deltay));
     }
 
     //Senha um ponto nas cordenadas de p
@@ -223,9 +112,9 @@ public class Algoritmos {
             //Formula parametrica
             tmpx = (int) ((teta * xini) + ((1 - teta) * xfim));
             tmpy = (int) ((teta * yini) + ((1 - teta) * yfim));
-
+            
             img.setRGB(tmpx, tmpy, cor.getRGB());
-
+            
         }
         return img;
     }
@@ -286,7 +175,7 @@ public class Algoritmos {
         }
         return img;
     }
-
+    
     private BufferedImage bresenhamOct0(BufferedImage img, int xini, int yini, int xfim, int yfim) {
         //O Bresenham utiliza os deltas para definir qual pixel pintar
         double deltax, deltay, deltaerr;
@@ -312,7 +201,9 @@ public class Algoritmos {
         //Percorremos o eixo x
         for (tmpx = xini; tmpx < xfim - 1; tmpx++) {
             //pinta o ponto
-            img.setRGB(tmpx, tmpy, cor.getRGB());
+            if (verificaDentro(img, tmpx, tmpy)) {
+                img.setRGB(tmpx, tmpy, cor.getRGB());
+            }
             //Soma ao erro o valor absoluto da divisão de deltay/deltax
             erro = erro + deltaerr;
             //Quando o erro se torna positivo, é sinal que devemos deslocar um pixel na direção y
@@ -323,10 +214,10 @@ public class Algoritmos {
                 erro = erro - 1.0;
             }
         }
-
+        
         return img;
     }
-
+    
     private BufferedImage bresenhamOct1(BufferedImage img, int xini, int yini, int xfim, int yfim) {
         //O Bresenham utiliza os deltas para definir qual pixel pintar
         double deltax, deltay, deltaerr;
@@ -339,7 +230,7 @@ public class Algoritmos {
 
         //Será necessário inverter algumas veriaveis para que a linha base seja o eixo y e o algoritmo funcione
         deltax = xfim - xini;
-
+        
         deltay = yfim - yini;
 
         //inverte a divisao
@@ -364,7 +255,7 @@ public class Algoritmos {
         }
         return img;
     }
-
+    
     private BufferedImage bresenhamOct2(BufferedImage img, int xini, int yini, int xfim, int yfim) {
         //O Bresenham utiliza os deltas para definir qual pixel pintar
         double deltax, deltay, deltaerr;
@@ -376,7 +267,7 @@ public class Algoritmos {
         Color cor = new Color(0, 0, 0);
         //Será necessário inverter algumas veriaveis para que a linha base seja o eixo y e o algoritmo funcione
         deltax = xini - xfim;
-
+        
         deltay = yfim - yini;
 
         //inverte a divisao
@@ -389,7 +280,9 @@ public class Algoritmos {
         //invertemos aqui o tmpx e o tmp y
         tmpx = xini;
         for (tmpy = yini; tmpy < yfim - 1; tmpy++) {
-            img.setRGB(tmpx, tmpy, cor.getRGB());
+            if (verificaDentro(img, tmpx, tmpy)) {
+                img.setRGB(tmpx, tmpy, cor.getRGB());
+            }
             erro = erro + deltaerr;
             if (erro >= 0.0) {
                 //Devido ao deslocamenteto ser invertido
@@ -400,7 +293,7 @@ public class Algoritmos {
         }
         return img;
     }
-
+    
     private BufferedImage bresenhamOct3(BufferedImage img, int xini, int yini, int xfim, int yfim) {
         //O Bresenham utiliza os deltas para definir qual pixel pintar
         double deltax, deltay, deltaerr;
@@ -413,7 +306,7 @@ public class Algoritmos {
         //inverte a coordenada X
         deltax = xini - xfim;
         deltay = yfim - yini;
-
+        
         if (deltax != 0) {
             deltaerr = Math.abs(deltay / deltax);
         } else {
@@ -424,20 +317,26 @@ public class Algoritmos {
         //O desenho é praticamente espelhado ao octante 0
         tmpy = yfim;
         for (tmpx = xfim; tmpx < xini - 1; tmpx++) {
-            img.setRGB(tmpx, tmpy, cor.getRGB());
+            if (verificaDentro(img, tmpx, tmpy)) {
+                img.setRGB(tmpx, tmpy, cor.getRGB());
+            }
             erro = erro + deltaerr;
             if (erro >= 0.0) {
                 tmpy--;
                 erro = erro - 1.0;
             }
         }
-
+        
         return img;
     }
 
     //Desenha um circulo de centro xini,yini e de raio = raio
     public BufferedImage desenhaCirculoBresenham(BufferedImage img, int xini, int yini, double raio) {
         int x, y, err;
+        int sizey = img.getHeight();
+        int sizex = img.getWidth();
+        System.out.println(sizex);
+        System.out.println(sizey);
         Color cor = new Color(0, 0, 0);
         //O x inicial será = o raio
         x = (int) raio;
@@ -445,23 +344,37 @@ public class Algoritmos {
         y = 0;
         //erro será igual a zero
         err = 0;
-        
+
         //Como funciona, no primeiro instante o y zerado e o x igual ao raio, ele fará o primeiro ponto no eixo x igual ao raio
         //No proximo laço ele irá deslocar um pouco para cima(no mesmo quadrante), porem atualizando o x para manter o raio constante
-        
         while (x >= y) {
             //Aqui é utilizado uma otimização para desenhar os 8 quadrantes ao mesmo tempo
             //o numero ao lado representa o quadrante
-            img.setRGB(xini+x, yini+y, cor.getRGB());//0
-            img.setRGB(xini+y, yini+x, cor.getRGB());//1
-            img.setRGB(xini-y, yini+x, cor.getRGB());//2
-            img.setRGB(xini-x, yini+y, cor.getRGB());//3
-            img.setRGB(xini-x, yini-y, cor.getRGB());//4
-            img.setRGB(xini-y, yini-x, cor.getRGB());//5
-            img.setRGB(xini+y, yini-x, cor.getRGB());//6            
-            img.setRGB(xini+x, yini-y, cor.getRGB());//7
-            
+            if (verificaDentro(img, xini + x, yini + y)) {
+                img.setRGB(xini + x, yini + y, cor.getRGB());//0
+            }
+            if (verificaDentro(img, xini + y, yini + x)) {
+                img.setRGB(xini + y, yini + x, cor.getRGB());//1
+            }
+            if (verificaDentro(img, xini - y, yini + x)) {
+                img.setRGB(xini - y, yini + x, cor.getRGB());//2
+            }
+            if (verificaDentro(img, xini - x, yini + y)) {
+                img.setRGB(xini - x, yini + y, cor.getRGB());//3
+            }
+            if (verificaDentro(img, xini - x, yini - y)) {
+                img.setRGB(xini - x, yini - y, cor.getRGB());//4
+            }
+            if (verificaDentro(img, xini - y, yini - x)) {
+                img.setRGB(xini - y, yini - x, cor.getRGB());//5
 
+            }
+            if (verificaDentro(img, xini + y, yini + x)) {
+                img.setRGB(xini + y, yini - x, cor.getRGB());//6            
+            }
+            if (verificaDentro(img, xini + y, yini + x)) {
+                img.setRGB(xini + x, yini - y, cor.getRGB());//7
+            }
             //O y se desloca para cima(relativo ao quadrante) a todo laço
             y += 1;
             //O erro se atualiza
@@ -473,8 +386,15 @@ public class Algoritmos {
                 err += 1 - 2 * x;
             }
         }
-       
-
+        
         return img;
+    }
+    
+    private static boolean verificaDentro(BufferedImage img, int x, int y) {
+        int xmax = img.getWidth();
+        int ymax = img.getHeight();
+        
+        return x < xmax && x >= 0 && y < ymax && y >= 0;
+        
     }
 }

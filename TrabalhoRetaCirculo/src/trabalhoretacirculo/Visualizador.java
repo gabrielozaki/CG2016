@@ -1,16 +1,10 @@
-package trabalhopratico1;
+package trabalhoretacirculo;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,10 +16,11 @@ import javax.swing.JFileChooser;
  * @author gabrielozaki
  */
 public class Visualizador extends javax.swing.JFrame {
+
     //Imagem a ser manipulada
-    BufferedImage imagem;
+    BufferedImage imagem = Algoritmos.criaImagem(450, 350);
     //Cópia da imagem original, para podermos restaurar
-    BufferedImage original;
+    BufferedImage original = Algoritmos.criaImagem(450, 350);
     //Pontos da reta
     Point ini;
     Point fim;
@@ -36,11 +31,17 @@ public class Visualizador extends javax.swing.JFrame {
     //Classe de algoritmos
     Algoritmos a = new Algoritmos();
 
+    
+    
     /**
      * Creates new form visualizador
      */
     public Visualizador() {
         initComponents();
+        
+        ImagemLabel.setIcon(new ImageIcon(this.imagem));
+        ImagemLabel.setSize(this.imagem.getWidth(), this.imagem.getHeight());
+        ImagemPanel.setSize(this.imagem.getWidth(), this.imagem.getHeight());
     }
 
     //Copia uma BufferedImage, evitando assim que editemos a imagem original
@@ -73,16 +74,8 @@ public class Visualizador extends javax.swing.JFrame {
         RetaButton = new javax.swing.JRadioButton();
         CirculoButton = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        AbrirMenu = new javax.swing.JMenuItem();
         AcaoMenu = new javax.swing.JMenu();
         OriginalMenu = new javax.swing.JMenuItem();
-        CinzaMenu = new javax.swing.JMenuItem();
-        InverterMenu = new javax.swing.JMenuItem();
-        SeparaMenu = new javax.swing.JMenu();
-        VermelhoMenu = new javax.swing.JMenuItem();
-        VerdeMenu = new javax.swing.JMenuItem();
-        AzulMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,11 +101,11 @@ public class Visualizador extends javax.swing.JFrame {
         ImagemPanel.setLayout(ImagemPanelLayout);
         ImagemPanelLayout.setHorizontalGroup(
             ImagemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ImagemLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(ImagemLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
         );
         ImagemPanelLayout.setVerticalGroup(
             ImagemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ImagemLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(ImagemLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
         );
 
         PosLabel.setText("(0,0)");
@@ -139,18 +132,6 @@ public class Visualizador extends javax.swing.JFrame {
             }
         });
 
-        jMenu1.setText("Arquivo");
-
-        AbrirMenu.setText("Abrir");
-        AbrirMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AbrirMenuActionPerformed(evt);
-            }
-        });
-        jMenu1.add(AbrirMenu);
-
-        jMenuBar1.add(jMenu1);
-
         AcaoMenu.setText("Ações");
 
         OriginalMenu.setText("Original");
@@ -161,52 +142,7 @@ public class Visualizador extends javax.swing.JFrame {
         });
         AcaoMenu.add(OriginalMenu);
 
-        CinzaMenu.setText("Obter Tons de Cinza");
-        CinzaMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CinzaMenuActionPerformed(evt);
-            }
-        });
-        AcaoMenu.add(CinzaMenu);
-
-        InverterMenu.setText("Inverter Cores");
-        InverterMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InverterMenuActionPerformed(evt);
-            }
-        });
-        AcaoMenu.add(InverterMenu);
-
-        SeparaMenu.setText("Separar Canais");
-
-        VermelhoMenu.setText("Apenas Canal Vemelho");
-        VermelhoMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VermelhoMenuActionPerformed(evt);
-            }
-        });
-        SeparaMenu.add(VermelhoMenu);
-
-        VerdeMenu.setText("Apenas Canal Verde");
-        VerdeMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VerdeMenuActionPerformed(evt);
-            }
-        });
-        SeparaMenu.add(VerdeMenu);
-
-        AzulMenu.setText("Apenas Canal Azul");
-        AzulMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AzulMenuActionPerformed(evt);
-            }
-        });
-        SeparaMenu.add(AzulMenu);
-
-        AcaoMenu.add(SeparaMenu);
-
         jMenuBar1.add(AcaoMenu);
-        AcaoMenu.setVisible(false);
 
         setJMenuBar(jMenuBar1);
 
@@ -215,95 +151,37 @@ public class Visualizador extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ImagemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(PosLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(PontoButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(RetaButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CirculoButton)))
-                .addContainerGap(171, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(ImagemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PontoButton)
-                    .addComponent(RetaButton)
-                    .addComponent(PosLabel)
-                    .addComponent(CirculoButton))
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(RetaButton)
+                        .addComponent(CirculoButton))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(PosLabel)
+                        .addComponent(PontoButton)))
+                .addContainerGap())
         );
-
-        PosLabel.setVisible(false);
-        PontoButton.setVisible(false);
-        RetaButton.setVisible(false);
-        CirculoButton.setVisible(false);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void AbrirMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirMenuActionPerformed
-        // TODO add your handling code here:
-        //Foi escolhido o CTRL+O como atalho porque o CTRL+A selecionava todo texto da TextArea
-        // Explorador de arquivos do Java, exemplo veio do site da oracle
-        JFileChooser fc = new JFileChooser();
-        //Faz ele abrir inicialmente na pasta do projeto
-        fc.setCurrentDirectory(new java.io.File("."));
-        //Abre o explorador
-        int returnVal = fc.showOpenDialog(Visualizador.this);
-        //Se foi clicado no abrir arquivo
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            //Pega o arquivo selecionado
-            File file = fc.getSelectedFile();
-            try {
-                //Abre a imagem
-                this.imagem = ImageIO.read(file);
-                this.original = clonaImagem(this.imagem);
-                //Transforma em um icon pra gente passar para o jlabel
-                ImageIcon imagemIcon = new ImageIcon(this.imagem);
-                //Coloca no jlabel
-                this.setSize(this.imagem.getWidth() + 150, this.imagem.getHeight() + 150);
-                ImagemPanel.setSize(this.imagem.getWidth(), this.imagem.getHeight());
-                ImagemLabel.setSize(this.imagem.getWidth(), this.imagem.getHeight());
-                ImagemLabel.setIcon(imagemIcon);
-                PosLabel.setVisible(true);
-                PontoButton.setVisible(true);
-                RetaButton.setVisible(true);
-                CirculoButton.setVisible(true);
-                AcaoMenu.setVisible(true);
-                //imagemPanel.setSize(imagemPanel.getWidth(), imagemPanel.getHeight());
-
-            } catch (IOException ex) {
-                Logger.getLogger(Visualizador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-
-    }//GEN-LAST:event_AbrirMenuActionPerformed
-
-    private void CinzaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CinzaMenuActionPerformed
-        // TODO add your handling code here:
-        //Insere no label
-        //ImagemLabel.setIcon(new ImageIcon(a.cinzaMedia(this.imagem)));
-        ImagemLabel.setIcon(new ImageIcon(a.cinzaLuminecencia(this.imagem)));
-
-
-    }//GEN-LAST:event_CinzaMenuActionPerformed
-
-    private void InverterMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InverterMenuActionPerformed
-        // TODO add your handling code here:
-        //Insere no label
-        ImagemLabel.setIcon(new ImageIcon(a.inverteCores(this.imagem)));
-
-    }//GEN-LAST:event_InverterMenuActionPerformed
 
     private void OriginalMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OriginalMenuActionPerformed
         // TODO add your handling code here:
@@ -312,26 +190,6 @@ public class Visualizador extends javax.swing.JFrame {
         ImagemLabel.setIcon(new ImageIcon(this.imagem));
 
     }//GEN-LAST:event_OriginalMenuActionPerformed
-
-    private void VermelhoMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VermelhoMenuActionPerformed
-        //Insere no label
-        ImagemLabel.setIcon(new ImageIcon(a.separaCanal(this.imagem, "Vermelho")));
-    }//GEN-LAST:event_VermelhoMenuActionPerformed
-
-    private void VerdeMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerdeMenuActionPerformed
-        //Insere no label
-        ImagemLabel.setIcon(new ImageIcon(a.separaCanal(this.imagem, "Verde")));
-    }//GEN-LAST:event_VerdeMenuActionPerformed
-
-    private void AzulMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AzulMenuActionPerformed
-        //Insere no label
-        ImagemLabel.setIcon(new ImageIcon(a.separaCanal(this.imagem, "Azul")));
-    }//GEN-LAST:event_AzulMenuActionPerformed
-
-    private void ImagemPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ImagemPanelMouseMoved
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_ImagemPanelMouseMoved
 
     private void ImagemLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ImagemLabelMouseClicked
         // TODO add your handling code here:
@@ -345,7 +203,7 @@ public class Visualizador extends javax.swing.JFrame {
             this.ini = ImagemLabel.getMousePosition();
             System.out.println("Primeiro clique:" + this.ini.getX() + "," + this.ini.getY());
 
-        } else if(RetaButton.getModel().isSelected()) {
+        } else if (RetaButton.getModel().isSelected()) {
             //Marca que o primeiro clique deve ser marcado de novo
             this.primeiroClick = true;
             this.fim = ImagemLabel.getMousePosition();
@@ -355,15 +213,14 @@ public class Visualizador extends javax.swing.JFrame {
             //ImagemLabel.setIcon(new ImageIcon(a.desenhaRetaParametrica(this.imagem,this.ini,this.fim,1000)));
             ImagemLabel.setIcon(new ImageIcon(a.desenhaRetaBresenham(this.imagem, this.ini, this.fim)));
 
-        }else{
+        } else {
             this.primeiroClick = true;
             this.fim = ImagemLabel.getMousePosition();
             System.out.println("Segundo clique:" + this.fim.getX() + "," + this.fim.getY());
-            
-            
+
             double distancia = a.getDistancia(ini, fim);
-            
-            ImagemLabel.setIcon(new ImageIcon(a.desenhaCirculoBresenham(this.imagem,(int) this.ini.getX(), (int) this.ini.getY(), distancia)));
+
+            ImagemLabel.setIcon(new ImageIcon(a.desenhaCirculoBresenham(this.imagem, (int) this.ini.getX(), (int) this.ini.getY(), distancia)));
         }
 
 
@@ -394,6 +251,10 @@ public class Visualizador extends javax.swing.JFrame {
         RetaButton.setSelected(false);
         PontoButton.setSelected(false);
     }//GEN-LAST:event_CirculoButtonActionPerformed
+
+    private void ImagemPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ImagemPanelMouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ImagemPanelMouseMoved
 
     /**
      * @param args the command line arguments
@@ -427,22 +288,14 @@ public class Visualizador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem AbrirMenu;
     private javax.swing.JMenu AcaoMenu;
-    private javax.swing.JMenuItem AzulMenu;
-    private javax.swing.JMenuItem CinzaMenu;
     private javax.swing.JRadioButton CirculoButton;
     private javax.swing.JLabel ImagemLabel;
     private javax.swing.JPanel ImagemPanel;
-    private javax.swing.JMenuItem InverterMenu;
     private javax.swing.JMenuItem OriginalMenu;
     private javax.swing.JRadioButton PontoButton;
     private javax.swing.JLabel PosLabel;
     private javax.swing.JRadioButton RetaButton;
-    private javax.swing.JMenu SeparaMenu;
-    private javax.swing.JMenuItem VerdeMenu;
-    private javax.swing.JMenuItem VermelhoMenu;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }
